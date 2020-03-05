@@ -115,9 +115,10 @@ shared_examples_for 'a bash script' do
       expect($?.exitstatus).to be_zero,
         "expected example copy to container #{cid}, got #{$?.exitstatus}"
 
+      puts "script:\n",script.inspect
       system(
         'docker', 'exec', '--user', 'travis', cid,
-        'bash', '-c', script,
+        'bash', '-xc', script,
         %i[out err] => logdest.to_s
       )
 
