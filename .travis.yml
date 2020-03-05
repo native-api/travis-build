@@ -12,7 +12,7 @@ env:
   global:
   - COVERAGE=1
   matrix:
-  - INTEGRATION_SPECS=0
+#  - INTEGRATION_SPECS=0
   - INTEGRATION_SPECS=1
 
 stages:
@@ -22,14 +22,14 @@ stages:
 jobs:
   allow_failures:
   - script: ./script/docker-build-and-push
-  include:
-  - stage: test
-    env:
-    script: ./script/validate-example-payloads-with-docker
-  - stage: ':ship: it to quay.io'
-    env:
-    script: ./script/docker-build-and-push
-    if: type = cron OR commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
+  # include:
+  # - stage: test
+    # env:
+    # script: ./script/validate-example-payloads-with-docker
+  # - stage: ':ship: it to quay.io'
+    # env:
+    # script: ./script/docker-build-and-push
+    # if: type = cron OR commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
 
 before_script:
 - eval "$(script/handle-docker-config)"
