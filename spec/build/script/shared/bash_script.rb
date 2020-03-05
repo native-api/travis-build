@@ -55,6 +55,7 @@ shared_examples_for 'a bash script' do
     bash_dir = SpecHelpers.top.join('lib/travis/build/bash')
 
     script = <<~BASH
+      export PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
       export TRAVIS_ROOT=#{root}
       export TRAVIS_HOME=#{homedir}
       export TRAVIS_BUILD_DIR=#{homedir}/build
