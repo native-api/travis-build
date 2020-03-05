@@ -522,7 +522,7 @@ module Travis
         if !args[:parallel].nil?
           sh "parallel_rspec -- --tag example:true -- #{top}/spec"
         else
-          sh "rspec -f d #{top}/spec/build/script/go_spec.rb:14"
+          sh "rspec --tag example:true #{top}/spec"
         end
       end
 
