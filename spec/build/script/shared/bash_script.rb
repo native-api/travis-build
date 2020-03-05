@@ -55,7 +55,6 @@ shared_examples_for 'a bash script' do
     bash_dir = SpecHelpers.top.join('lib/travis/build/bash')
 
     script = <<~BASH
-      export PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
       export TRAVIS_ROOT=#{root}
       export TRAVIS_HOME=#{homedir}
       export TRAVIS_BUILD_DIR=#{homedir}/build
@@ -88,7 +87,8 @@ shared_examples_for 'a bash script' do
           cp /examples/#{bash_script_file.basename} ~/build.sh &&
           export TRAVIS_FILTERED=pty &&
           sudo rm -rf /etc/apt/sources.list.d &&
-          bash ~/build.sh 2>&1 | tee /var/tmp/build.log
+          cat ~/build.sh
+          PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }' bash -x ~/build.sh 2>&1 | tee /var/tmp/build.log
       BASH
     end
 
