@@ -421,8 +421,9 @@ module Travis
             ]
             doc_path = exception.doc_path
           else
+            # https://stackoverflow.com/questions/13311694/how-to-format-ruby-exception-with-backtrace-into-a-string
             msg = [
-              "Unfortunately, we do not know much about this error."
+              "#{exception.backtrace.first}: #{exception.message} (#{exception.class})", exception.backtrace.drop(1).map{|s| "\t#{s}"}
             ]
             doc_path = ''
           end
