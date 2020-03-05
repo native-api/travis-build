@@ -10,6 +10,7 @@ shared_examples_for 'a bash script' do
   end
 
   before :all do
+    ENV["PS4"]='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
     clean_up_containers
   end
 
@@ -71,7 +72,7 @@ shared_examples_for 'a bash script' do
     BASH
 
     expect(
-      system('bash', '-c', script, %i[out err] => '/dev/null')
+      system('bash', '-xc', script)
     ).to be true
 
     expect(dot_travis.join('done')).to be_exist
@@ -101,8 +102,7 @@ shared_examples_for 'a bash script' do
 
       system(
         'docker', 'exec', '--user', 'travis', cid,
-        'sudo', 'mkdir', '-p', '/examples',
-        %i[out err] => '/dev/null'
+        'sudo', 'mkdir', '-p', '/examples'
       )
       expect($?.exitstatus).to be_zero,
         "expected creation of examples dir in #{cid}, got #{$?.exitstatus}"
